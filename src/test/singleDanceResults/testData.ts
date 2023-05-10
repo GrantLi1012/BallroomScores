@@ -107,3 +107,57 @@ export const rule5Result2 = [
         placing: 4
     }
 ];
+
+export const rule6Data1: CompetitorScores[] = [
+    {
+        competitorId: "1",
+        scores: [1,1,1,6,6]
+    },
+    {
+        competitorId: "2",
+        scores: [2,5,5,2,2]
+    },
+    {
+        competitorId: "3",
+        scores: [5,2,2,1,1]
+    },
+    {
+        competitorId: "4",
+        scores: [6,3,3,5,3]
+    },
+    {
+        competitorId: "5",
+        scores: [3,6,4,3,5]
+    },
+    {
+        competitorId: "6",
+        scores: [4,4,6,4,4]
+    }
+];
+
+export const rule6Result1 = [
+    {
+        competitorId: "1",
+        placing: 1
+    },
+    {
+        competitorId: "2",
+        placing: 2
+    },
+    {
+        competitorId: "3",
+        placing: 3
+    },
+    {
+        competitorId: "4",
+        placing: 4
+    },
+    {
+        competitorId: "5",
+        placing: 5
+    },
+    {
+        competitorId: "6",
+        placing: 6
+    }
+];

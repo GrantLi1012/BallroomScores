@@ -2,7 +2,7 @@ import Dance from "../../type/Dance";
 import CompetitorScores from "../../type/CompetitorScores";
 import SingleDanceResult from "../../type/SingleDanceResult";
 import Place from "../../type/Place";
-import { findMajorityIndex } from "./findMajorityIndex";
+import { findMajority } from "./findMajority";
 
 const singleDanceResult = (event: string, dance: Dance, competitorScores: CompetitorScores[]) : SingleDanceResult => {
     // This assumes ScoreSheet is inputted correctly, where the scores from each judge is entered in exact same order
@@ -66,19 +66,69 @@ const singleDanceResult = (event: string, dance: Dance, competitorScores: Compet
     console.log(placeCalRank);
     console.log(placeCalAggregate);
 
-    for (let i=0; i<numCompetitors; i++) {
-        findMajorityIndex(i, placeCalRank, majority);
-    }
     // populate rankings
+    let colCursor = 0;
     for (let rank=1; rank<numCompetitors+1; rank++) {
-        //console.log("deciding rank " + rank);
-        for (let competitor=0; competitor<numCompetitors; competitor++) {
-            if (placeCalRank[competitor][rank-1] >= majority) {
-                rankings[competitor].placing = rank;
-                placeCalRank[competitor].fill(0, rank, numCompetitors);
-                //console.log(placeCalRank);
+        // console.log("deciding rank " + rank);
+        // console.log("cursor col " + colCursor);
+        const majorityCount : { [id: string] : number; } = findMajority(colCursor, placeCalRank, majority);
+        const majorityCountKeys: string[] = Object.keys(majorityCount);
+        const majorityCountSize: number = majorityCountKeys.length;
+        // console.log(majorityCount);
+        if (majorityCountSize == 1) {
+            if (majorityCount[majorityCountKeys[0]] == 1) {
+                // grant winner according to rule 5
+                for (let competitor=0; competitor<numCompetitors; competitor++) {
+                    if (placeCalRank[competitor][colCursor] == parseInt(majorityCountKeys[0])) {
+                        rankings[competitor].placing = rank;
+                        colCursor = colCursor + 1;
+                        placeCalRank[competitor].fill(0, colCursor, numCompetitors);
+                        break;
+                    }
+                }
+            }
+            else {
+                // tie breaking using rule 7a
+
             }
         }
+        else if (majorityCountSize > 1) {
+            // const sortedKeys = majorityCountKeys.sort((a, b) => {
+            //     return parseInt(a) - parseInt(b);
+            // });
+            // if (majorityCount[sortedKeys[0]] > 1) {
+            //     // tie breaking using rule 7a
+            // }
+            // else {
+            //     for (let competitor=0; competitor<numCompetitors; competitor++) {
+            //         if (placeCalRank[competitor][rank-1].toString() == sortedKeys[0]) {
+            //             rankings[competitor].placing = rank;
+            //             placeCalRank[competitor].fill(0, rank, numCompetitors);
+            //         }
+            //         if (majorityCount[sortedKeys[1]] > 1) {
+            //             // tie breaking using rule 7a
+            //         }
+            //         else if (placeCalRank[competitor][rank-1].toString() == sortedKeys[1]) {
+            //             rankings[competitor].placing = rank + 1;
+            //             placeCalRank[competitor].fill(0, rank + 1, numCompetitors);
+            //             rank += 1;
+            //         }
+            //     }
+            // }
+        }
+        else if (majorityCountSize == 0) {
+            // no majority, apply rule 8
+        }
+        else {
+            console.log("[ERROR] nagative majorityIndexSize: " + majorityCountSize);
+        }
+        // for (let competitor=0; competitor<numCompetitors; competitor++) {
+        //     if (placeCalRank[competitor][rank-1] >= majority) {
+        //         rankings[competitor].placing = rank;
+        //         placeCalRank[competitor].fill(0, rank, numCompetitors);
+        //         //console.log(placeCalRank);
+        //     }
+        // }
     }
 
     console.log("step 3 -----------------");
