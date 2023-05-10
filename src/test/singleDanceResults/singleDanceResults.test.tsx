@@ -1,4 +1,4 @@
-import singleDanceResult from "../../util/singleDanceResult";
+import singleDanceResult from "../../util/singleDance/singleDanceResult";
 import { rule5Data1, rule5Result1, rule5Data2, rule5Result2 } from "./testData";
 
 test("rule 5 test 1", () => {
