@@ -1,7 +1,12 @@
 import singleDanceResult from "../../util/singleDanceResult";
-import { rule5Data, rule5Result } from "./testData";
+import { rule5Data1, rule5Result1, rule5Data2, rule5Result2 } from "./testData";
 
-test("simple base case", () => {
-    const result = singleDanceResult("event", "Waltz", rule5Data);
-    expect(result.rankings).toEqual(rule5Result);
+test("rule 5 test 1", () => {
+    const result = singleDanceResult("event", "Waltz", rule5Data1);
+    expect(result.rankings).toEqual(rule5Result1);
+});
+
+test("rule 5 test 2", () => {
+    const result = singleDanceResult("event", "Cha Cha", rule5Data2);
+    expect(result.rankings).toEqual(rule5Result2);
 });

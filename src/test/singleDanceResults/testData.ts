@@ -1,6 +1,6 @@
 import CompetitorScores from "../../type/CompetitorScores";
 
-export const rule5Data: CompetitorScores[] = [
+export const rule5Data1: CompetitorScores[] = [
     {
         competitorId: "1",
         scores: [1,5,1,1,2]
@@ -27,7 +27,7 @@ export const rule5Data: CompetitorScores[] = [
     }
 ];
 
-export const rule5Result = [
+export const rule5Result1 = [
     {
         competitorId: "1",
         placing: 1
@@ -51,5 +51,59 @@ export const rule5Result = [
     {
         competitorId: "6",
         placing: 6
+    }
+];
+
+export const rule5Data2: CompetitorScores[] = [
+    {
+        competitorId: "1",
+        scores: [1,2,3,3,1]
+    },
+    {
+        competitorId: "2",
+        scores: [3,4,2,2,4]
+    },
+    {
+        competitorId: "3",
+        scores: [6,6,6,6,6]
+    },
+    {
+        competitorId: "4",
+        scores: [4,5,5,5,5]
+    },
+    {
+        competitorId: "5",
+        scores: [2,1,1,1,1]
+    },
+    {
+        competitorId: "6",
+        scores: [5,3,4,4,3]
+    }
+];
+
+export const rule5Result2 = [
+    {
+        competitorId: "1",
+        placing: 2
+    },
+    {
+        competitorId: "2",
+        placing: 3
+    },
+    {
+        competitorId: "3",
+        placing: 6
+    },
+    {
+        competitorId: "4",
+        placing: 5
+    },
+    {
+        competitorId: "5",
+        placing: 1
+    },
+    {
+        competitorId: "6",
+        placing: 4
     }
 ];
