@@ -69,7 +69,7 @@ const singleDanceResult = (event: string, dance: Dance, competitorScores: Compet
     // populate rankings
     let colCursor = 0;
     for (let rank=1; rank<numCompetitors+1; rank++) {
-        // console.log("deciding rank " + rank);
+        console.log("deciding rank " + rank + ", cursor col " + colCursor);
         // console.log("cursor col " + colCursor);
         const majorityCount : { [id: string] : number; } = findMajority(colCursor, placeCalRank, majority);
         const majorityCountKeys: string[] = Object.keys(majorityCount);
@@ -93,28 +93,41 @@ const singleDanceResult = (event: string, dance: Dance, competitorScores: Compet
             }
         }
         else if (majorityCountSize > 1) {
-            // const sortedKeys = majorityCountKeys.sort((a, b) => {
-            //     return parseInt(a) - parseInt(b);
-            // });
-            // if (majorityCount[sortedKeys[0]] > 1) {
-            //     // tie breaking using rule 7a
-            // }
-            // else {
-            //     for (let competitor=0; competitor<numCompetitors; competitor++) {
-            //         if (placeCalRank[competitor][rank-1].toString() == sortedKeys[0]) {
-            //             rankings[competitor].placing = rank;
-            //             placeCalRank[competitor].fill(0, rank, numCompetitors);
-            //         }
-            //         if (majorityCount[sortedKeys[1]] > 1) {
-            //             // tie breaking using rule 7a
-            //         }
-            //         else if (placeCalRank[competitor][rank-1].toString() == sortedKeys[1]) {
-            //             rankings[competitor].placing = rank + 1;
-            //             placeCalRank[competitor].fill(0, rank + 1, numCompetitors);
-            //             rank += 1;
-            //         }
-            //     }
-            // }
+            const sortedKeys = majorityCountKeys.sort((a, b) => {
+                return parseInt(b) - parseInt(a);
+            });
+            console.log("sorted keys: " + sortedKeys);
+            if (majorityCount[sortedKeys[0]] > 1) {
+                // tie breaking using rule 7a
+            }
+            else {
+                let placeAssigned = [false, false]
+                for (let competitor=0; competitor<numCompetitors; competitor++) {
+                    if (placeCalRank[competitor][colCursor] == parseInt(sortedKeys[0])) {
+                        console.log("assigning rank " + (rank) + " to " + competitor)
+                        rankings[competitor].placing = rank;
+                        placeCalRank[competitor].fill(0, colCursor + 1, numCompetitors);
+                        placeAssigned[0] = true;
+                    }
+                    else if (placeCalRank[competitor][colCursor] == parseInt(sortedKeys[1])) {
+                        if (majorityCount[sortedKeys[1]] > 1) {
+                            // tie breaking using rule 7a
+                            console.log("fuck")
+                        }
+                        else {
+                            console.log("assigning rank " + (rank+1) + " to " + competitor)
+                            rankings[competitor].placing = rank + 1;
+                            placeCalRank[competitor].fill(0, colCursor + 1, numCompetitors);
+                            placeAssigned[1] = true;
+                        }
+                    }
+                    if (placeAssigned[0] && placeAssigned[1]) {
+                        colCursor = colCursor + 1;
+                        rank = rank + 1;
+                        break;
+                    }
+                }
+            }
         }
         else if (majorityCountSize == 0) {
             // no majority, apply rule 8
@@ -129,6 +142,7 @@ const singleDanceResult = (event: string, dance: Dance, competitorScores: Compet
         //         //console.log(placeCalRank);
         //     }
         // }
+        console.log(rankings);
     }
 
     console.log("step 3 -----------------");
